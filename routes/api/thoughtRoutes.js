@@ -21,7 +21,7 @@ router
 
 // /api/thoguhts/:thoughtId/reactions
 router
-  .route('/api/thoguhts/:thoughtId/reactions')
+  .route('/:thoughtId/reactions')
   .post(addReaction)
   .delete(deleteReaction)
 
