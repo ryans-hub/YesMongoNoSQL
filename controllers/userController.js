@@ -1,4 +1,4 @@
-const User = require('../models');
+const User = require('../models/User');
 
 module.exports = {
   // GET all users
@@ -78,7 +78,7 @@ module.exports = {
     }
   },
   // POST add a friend
-  async addFriend(req, req) {
+  async addFriend(req, res) {
 
   }
 };
