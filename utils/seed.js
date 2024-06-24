@@ -1,6 +1,7 @@
 const connection = require('../config/connection');
-const User = require('../models/User'); // Adjust the path to your User model
-const { username, emails } = require('./data'); // Adjust the path to your data file
+const User = require('../models/User');
+const Thought = require('../models/Thought');
+const { username, emails, thoughts } = require('./data');
 
 connection.on('error', (err) => console.error(err));
 
@@ -13,11 +14,26 @@ connection.once('open', async () => {
     await connection.dropCollection('users');
   }
 
+  const thoughtCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
+  if (thoughtCheck.length) {
+    await connection.dropCollection('thoughts');
+  }
+
+  // Insert thoughts into the database
+  const thoughtDocs = await Thought.insertMany(thoughts.map(text => ({ thoughtText: text, username: 'anonymous' })));
+  const thoughtIds = thoughtDocs.map(doc => doc._id);
+
+  // Get the thought text for each thought ObjectId
+  const thoughtTexts = {};
+  thoughtDocs.forEach(doc => {
+    thoughtTexts[doc._id.toString()] = doc.thoughtText;
+  });
+
   // Create user objects
   const users = username.map((username, index) => ({
     username,
     email: emails[index],
-    thoughts: [],
+    thoughts: [thoughtTexts[thoughtIds[index % thoughtIds.length]]], // Assigning actual thought text
     friends: []
   }));
 

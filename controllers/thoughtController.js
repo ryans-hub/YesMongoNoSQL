@@ -52,7 +52,7 @@ module.exports = {
   // DELETE a thought by id
   async deleteThought(req, res) {
     try {
-      const thought = await User.findOneAndDelete({ _id: req.params.thoughtId });
+      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
 
       if (!thought) {
         res.status(404).json({ message: 'No thought with that ID' });
@@ -65,7 +65,7 @@ module.exports = {
 
   async addReaction(req, res) {
     try {
-      const thought = await User.findOneAndDelete({ _id: req.params.thoughtId });
+      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
 
       if (!thought) {
         res.status(404).json({ message: 'No thought with that ID' });
@@ -78,7 +78,7 @@ module.exports = {
 
   async deleteReaction(req, res) {
     try {
-      const thought = await User.findOneAndDelete({ _id: req.params.thoughtId });
+      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
 
       if (!thought) {
         res.status(404).json({ message: 'No thought with that ID' });
